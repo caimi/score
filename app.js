@@ -287,10 +287,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const player = parseInt(area.dataset.player);
             if (player === 1) {
                 colorIndexP1 = (colorIndexP1 + 1) % playerColors.length;
-                area.style.backgroundColor = playerColors[colorIndexP1];
+                const newColor = playerColors[colorIndexP1];
+                area.style.backgroundColor = newColor;
+                document.getElementById('history-p1').style.backgroundColor = newColor;
             } else {
                 colorIndexP2 = (colorIndexP2 + 1) % playerColors.length;
-                area.style.backgroundColor = playerColors[colorIndexP2];
+                const newColor = playerColors[colorIndexP2];
+                area.style.backgroundColor = newColor;
+                document.getElementById('history-p2').style.backgroundColor = newColor;
             }
         });
     });
