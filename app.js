@@ -205,8 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
         draggedBall = null;
     });
 
-
-
     // Drop logic
     function handleDrop(dropPlayerStr, data) {
         const dropPlayer = parseInt(dropPlayerStr);
@@ -409,49 +407,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetWidth = 1920;
             const targetHeight = 1080;
 
-            /*const scaleX = window.innerWidth / targetWidth;
-            const scaleY = window.innerHeight / targetHeight;*/
-
             let altura = document.documentElement.clientHeight;
             let largura = document.documentElement.clientWidth;
             const scaleX = largura / targetWidth;
             const scaleY = altura / targetHeight;
-            console.log(scaleX, scaleY);
-            // Se você quer que a altura seja SEMPRE prioridade:
-            // const scale = scaleY; 
 
-            // Mas o recomendado para não cortar as laterais em telas estreitas é:
             const scale = Math.min(scaleX, scaleY);
 
             // Mudamos para 'center' para trabalhar com o Flexbox do CSS
             board.style.transformOrigin = 'center center';
             board.style.transform = `scale(${scale})`;
-            /*
-            const viewportWidth = window.innerWidth;
-            const originalWidth = 1920; // Largura original do scoreboard
-            const scale = viewportWidth / originalWidth;
-
-            scoreboard.style.transform = `scale(${scale})`;
-            scoreboard.style.transformOrigin = 'top left'; // Escala a partir do canto superior esquerdo
-            scoreboard.style.position = 'absolute'; // Garante que ele fique fixo no top left
-            scoreboard.style.left = '0';
-            scoreboard.style.top = '0';
 
             // Ajustar a altura do body para o scoreboard escalado
             const scaledHeight = 1080 * scale; // Altura original * escala
             document.body.style.minHeight = `${scaledHeight}px`;
             document.body.style.overflow = 'auto'; // Permitir rolagem se a altura for maior que a viewport*/
         } else {
-            /*// Resetar estilos se não for mobile para o desktop ter o comportamento padrão
-            scoreboard.style.transform = '';
-            scoreboard.style.transformOrigin = '';
-            // No desktop, centralizamos com CSS, então removemos o posicionamento fixo do JS
-            scoreboard.style.position = 'absolute'; // Volta ao padrão do CSS para desktop
-            scoreboard.style.left = '50%';
-            scoreboard.style.top = '50%';
-            scoreboard.style.transform = 'translate(-50%, -50%)'; // Centraliza via CSS
-            document.body.style.minHeight = '100vh';
-            document.body.style.overflow = 'hidden';*/
             const board = document.querySelector('.scoreboard');
             const targetWidth = 1920;
             const targetHeight = 1080;
@@ -459,18 +430,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const scaleX = window.innerWidth / targetWidth;
             const scaleY = window.innerHeight / targetHeight;
             console.log(scaleX, scaleY);
-            // Se você quer que a altura seja SEMPRE prioridade:
-            // const scale = scaleY; 
 
-            // Mas o recomendado para não cortar as laterais em telas estreitas é:
             const scale = Math.min(scaleX, scaleY);
 
-            // Mudamos para 'center' para trabalhar com o Flexbox do CSS
             board.style.transformOrigin = 'center center';
             board.style.transform = `scale(${scale})`;
         }
     }
 
     window.addEventListener('resize', scaleScoreboardForMobile);
-   window.addEventListener('load', scaleScoreboardForMobile);
+    window.addEventListener('load', scaleScoreboardForMobile);
 });
