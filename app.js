@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const matchesHistory = [];
     const actionStack = [];
 
+    // Cores para ciclar
+    const playerColors = ["#C82020", "#FF4A22", "#FF9616", "#FFBF2B", "#FFE952", "#CCDA4F", "#1DAE5A", "#597D8B", "#00ABE2", "#3755B1", "#6768AB", "#6B3FB3", "#A62EAB", "#FA1B5D"];
+    let colorIndexP1 = 8; // Iniciando com azul (aproximado)
+    let colorIndexP2 = 2; // Iniciando com laranja (aproximado)
+
     // Timers
     let matchTime = 0;
     let roundTime = 0;
@@ -271,6 +276,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 handleDrop(area.dataset.player, data);
             } catch (err) {
                 console.error("Invalid drop payload", err);
+            }
+        });
+
+        // Clique para ciclar cores
+        area.addEventListener('click', (e) => {
+            // Evita disparar ao clicar em bolas no histórico (que estão dentro da area)
+            if (e.target !== area && !e.target.classList.contains('big-score')) return;
+
+            const player = parseInt(area.dataset.player);
+            if (player === 1) {
+                colorIndexP1 = (colorIndexP1 + 1) % playerColors.length;
+                area.style.backgroundColor = playerColors[colorIndexP1];
+            } else {
+                colorIndexP2 = (colorIndexP2 + 1) % playerColors.length;
+                area.style.backgroundColor = playerColors[colorIndexP2];
             }
         });
     });
