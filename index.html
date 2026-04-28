@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placar - Snooker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="scoreboard">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="timers">
+                <span id="timer-round">Round: 00:00:00</span>
+                <span style="margin: 0 20px; color: #555;">|</span>
+                <span id="timer-total">Total: 00:00:00</span>
+            </div>
+            <div class="score-header">
+                <div class="player-group">
+                    <div class="player-name" contenteditable="true" spellcheck="false" style="outline: none;">Player 1
+                    </div>
+                </div>
+                <div class="match-score">
+                    <span id="round-p1" style="cursor: pointer;">0</span>
+                    <span class="separator">x</span>
+                    <span id="round-p2" style="cursor: pointer;">0</span>
+                </div>
+                <div class="player-group" style="text-align: right;">
+                    <div class="player-name" contenteditable="true" spellcheck="false" style="outline: none;">Player 2
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Area -->
+        <div class="main-area">
+            <!-- Player 1 Side -->
+            <div id="area-p1" class="player-side blue-side" data-player="1">
+                <div id="score-p1" class="big-score">0</div>
+            </div>
+
+            <!-- Vertical Center Area (Balls) -->
+            <div class="center-divider">
+                <div class="ball ball-red" draggable="true" data-value="1" data-color="ball-red"></div>
+                <div class="ball ball-yellow" draggable="true" data-value="2" data-color="ball-yellow"></div>
+                <div class="ball ball-green" draggable="true" data-value="3" data-color="ball-green"></div>
+                <div class="ball ball-brown" draggable="true" data-value="4" data-color="ball-brown"></div>
+                <div class="ball ball-blue" draggable="true" data-value="5" data-color="ball-blue"></div>
+                <div class="ball ball-pink" draggable="true" data-value="6" data-color="ball-pink"></div>
+                <div class="ball ball-black" draggable="true" data-value="7" data-color="ball-black"></div>
+                <div class="ball ball-white" draggable="true" data-value="4" data-foul="true" data-color="ball-white">
+                </div>
+
+                <div class="foul-section">
+
+                    <div class="foul-text">falta</div>
+                    <input type="checkbox" class="foul-checkbox">
+
+                    <div id="fullscreen-btn" class="fullscreen-btn" title="Toggle Fullscreen"
+                        style="margin-top: 20px; cursor: pointer; color: #999;">
+                        <!-- Icon Expand -->
+                        <svg id="icon-expand" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+                            </path>
+                        </svg>
+                        <!-- Icon Compress -->
+                        <svg id="icon-compress" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                            style="display:none;">
+                            <path
+                                d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player 2 Side -->
+            <div id="area-p2" class="player-side orange-side" data-player="2">
+                <div id="score-p2" class="big-score">0</div>
+            </div>
+        </div>
+
+        <!-- Bottom Tracks -->
+        <div class="bottom-bar">
+            <div class="history-track blue-track" id="history-p1">
+            </div>
+            <div class="menu-btn" id="menu-btn">
+                &#9776;
+            </div>
+            <div class="history-track orange-track" id="history-p2">
+            </div>
+        </div>
+
+        <!-- Modal/Menu -->
+        <div id="modal-overlay" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Menu Principal</h2>
+                    <span class="modal-close" id="modal-close">&times;</span>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <div id="view-main" class="modal-view">
+                        <button class="modal-btn" id="btn-restart">Restart / Reiniciar</button>
+                        <button class="modal-btn" id="btn-history">Histórico da Partida</button>
+                        <button class="modal-btn" id="btn-help">Ajuda</button>
+                        <button class="modal-btn" id="btn-about">Sobre</button>
+                    </div>
+
+                    <div id="view-history" class="modal-view hidden">
+                        <div id="history-list"></div>
+                        <button class="modal-btn btn-back">Voltar</button>
+                    </div>
+
+                    <div id="view-help" class="modal-view hidden">
+                        <p><strong>Como Jogar:</strong> Arraste e solte as bolas nas metades laterais para pontuar.</p>
+                        <br>
+                        <p><strong>Faltas:</strong> Assinale a caixa de selecao (checkbox) no centro da tela. Solte a
+                            bola no lado do jogador que COMETEU a falta. Os pontos serao automaticamente migrados para o
+                            oponente.</p>
+                        <br>
+                        <p><strong>Rounds:</strong> Clique no placar de Rounds (0 x 0) la no topo para salvar o
+                            resultado da partida iniciante, limpando localmente a historia e iniciando uma rodada 2
+                            limpa.</p>
+                        <button class="modal-btn btn-back" style="margin-top:20px;">Voltar</button>
+                    </div>
+
+                    <div id="view-about" class="modal-view hidden">
+                        <h2>Snooker Scoreboard Interactive</h2>
+                        <br>
+                        <p>Versao 1.0</p>
+                        <br>
+                        <p>Este sistema conta com logica de resolucao infinita 16:9 ajustavel a qualquer tela (como
+                            overlays de TV).</p>
+                        <button class="modal-btn btn-back" style="margin-top:20px;">Voltar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+
+    <script>
+        /*function resizeScoreboard() {
+            const board = document.querySelector('.scoreboard');
+            const targetWidth = 1920;
+            const targetHeight = 1080;
+
+            const scaleX = window.innerWidth / targetWidth;
+            const scaleY = window.innerHeight / targetHeight;
+
+            // Usamos Math.min para manter a proporção perfeitamente preservada 
+            // sem achatar as bolas ou distorcer as fontes.
+            console.log("Tentando parar aqui...");
+            debugger;
+            const scale = Math.min(scaleX, scaleY);
+            board.style.transformOrigin = 'top left';
+            board.style.transform = `scale(${scale})`;
+        }
+
+        // Executar no carregamento
+        window.addEventListener('load', resizeScoreboard);
+        // Executar sempre que a janela for redimensionada
+        window.addEventListener('resize', resizeScoreboard);*/
+    </script>
+</body>
+
+</html>
